@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Web
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{6583E771-76E8-45CE-9247-1D2AC63CD7C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService", "WebApplication1\WebService.csproj", "{6583E771-76E8-45CE-9247-1D2AC63CD7C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{047405FB-10FA-4ABE-A17B-67BF9A855602}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceConsume", "WebApplication2\WebServiceConsume.csproj", "{047405FB-10FA-4ABE-A17B-67BF9A855602}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6583E771-76E8-45CE-9247-1D2AC63CD7C3} = {6583E771-76E8-45CE-9247-1D2AC63CD7C3}
 	EndProjectSection
