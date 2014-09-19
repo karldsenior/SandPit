@@ -35,20 +35,25 @@ namespace WebApplication1
         }
 
 
+
+
+
+
+
+
         static string PeopleXML(string strID)
         {
                  
             DataTable dt = new DataTable() { TableName = "People" };
             DataColumn keyColumn = dt.Columns.Add("ID", typeof(System.Int32));
-
             dt.Clear();
             dt.Columns.Add("Name", typeof(System.String));
             dt.Columns.Add("Age", typeof(System.String));
             dt.Columns.Add("PopStar", typeof(System.String));
             dt.PrimaryKey = new DataColumn[] { keyColumn };
 
-            ArrayList arr = arrPeople(strID);
-            for (int i = 0; i < arr.Count; i++)
+            ArrayList arr = arrPeople();
+            for (int i = 0; i < arr.Count; i++)//populate our datatable using our fake (arraylist) database
             {
                 MyDetails md = (MyDetails)arr[i];
                 dt.Rows.Add(new object[] { Convert.ToInt32(md.ID), md.Name, md.Age, md.PopStar });
@@ -56,18 +61,43 @@ namespace WebApplication1
 
             dt.AcceptChanges();
 
+            
+            //query datatable if only want record for a single person
+            if (!string.IsNullOrEmpty(strID))
+            {                
+                DataRow[] result = dt.Select("ID = " + strID);
+                DataTable dt2 = dt.Clone();//this clones table structure only, not data           
+                
+                foreach (DataRow row in result)//should only be one row
+                {
+                    dt2.ImportRow(row);
+                    break;//break just in case
+                }
+
+                dt2.AcceptChanges();
+                return (strReturnXML(dt2));
+            }
+            else
+            {
+                return(strReturnXML(dt));
+            }  
+        }
+
+
+        protected static string strReturnXML(DataTable dt)//convert datatable data to xml string
+        {
             string xml = string.Empty;
             using (TextWriter writer = new StringWriter())
             {
                 dt.WriteXml(writer);
                 xml = writer.ToString();
             }
-        
+
             return (xml);
         }
 
 
-        static ArrayList arrPeople(string strID)
+        static ArrayList arrPeople()//our fake database
         {
             MyDetails md;
             
@@ -90,30 +120,23 @@ namespace WebApplication1
             md = new MyDetails();
             md.ID = "789";
             md.Name = "Jim Bob";
-            md.Age = "17";
+            md.Age = "26";
             md.PopStar = "Girls Aloud";
             aList.Add(md);
 
-            if (!string.IsNullOrEmpty(strID))
-            {
-                for (int i = 0; i < aList.Count; i++)
-                {
-                    md = (MyDetails)aList[i];
-                    if (md.ID == strID)
-                    {
-                        aList.Clear();
-                        aList.Add(md);
-                        break;
-                    }
-                }
-            }
+            md = new MyDetails();
+            md.ID = "101112";
+            md.Name = "Cheryl Jeppo";
+            md.Age = "24";
+            md.PopStar = "Rick Astley";
+            aList.Add(md);
 
             return (aList);
         }
 
     }
 
-    public class MyDetails
+    public class MyDetails//our fake table columns
     {
         public string ID;
         public string Name;
